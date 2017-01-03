@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+
+	<title>Drums</title>
+
+	<link rel="stylesheet" href="">
+
+	<style>
+		html,
+		body {
+			background: #e2e1e0;
+			text-align: center;
+			width: 100%;
+			margin: auto;
+			padding: 0;
+			font-family: 'Courgette', cursive;
+			font-family: 'Kaushan Script', cursive;
+			font-family: 'Reem Kufi', sans-serif;
+			font-family: 'Titillium Web', sans-serif;
+			background: #DC2424;
+			/* fallback for old browsers */
+			background: -webkit-linear-gradient(to left, #DC2424, #4A569D);
+			/* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to left, #DC2424, #4A569D);
+			/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+			padding-top: calc(15% - 100px);
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		.button {
+			background: #fff;
+			border-radius: 4px;
+			width: 10.5%;
+			box-sizing: border-box;
+			display: inline-block;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+			transition: all .2s cubic-bezier(.25, .8, .25, 1);
+			text-align: center;
+			cursor: pointer;
+		}
+		
+		@media (max-width: 600px) {
+			body {
+				padding-top: 10%;
+			}
+			.button {
+				background: #fff;
+				border-radius: 4px;
+				width: 30%;
+				margin-bottom: 1%;
+				margin-top: 1%;
+				box-sizing: border-box;
+				display: inline-block;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+				transition: all .2s cubic-bezier(.25, .8, .25, 1);
+				text-align: center;
+				cursor: pointer;
+			}
+		}
+		
+		.button_clicked {
+			box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+			transform: scale(0.9);
+		}
+		
+		.button_key {}
+
+	</style>
+</head>
+
+<body>
+
+
+	<div data-key="65" class="button">
+		<p class="button_key">A</p>
+		<p class="button_title">clap</p>
+	</div>
+
+	<div data-key="83" class="button">
+		<p class="button_key">S</p>
+		<p class="button_title">hihat</p>
+	</div>
+
+	<div data-key="68" class="button">
+		<p class="button_key">D</p>
+		<p class="button_title">kick</p>
+	</div>
+
+	<div data-key="70" class="button">
+		<p class="button_key">F</p>
+		<p class="button_title">openhat</p>
+	</div>
+
+	<div data-key="71" class="button">
+		<p class="button_key">G</p>
+		<p class="button_title">boom</p>
+	</div>
+
+	<div data-key="72" class="button">
+		<p class="button_key">H</p>
+		<p class="button_title">ride</p>
+	</div>
+
+	<div data-key="74" class="button">
+		<p class="button_key">J</p>
+		<p class="button_title">snare</p>
+	</div>
+
+	<div data-key="75" class="button">
+		<p class="button_key">K</p>
+		<p class="button_title">tom</p>
+	</div>
+
+	<div data-key="76" class="button">
+		<p class="button_key">Ll</p>
+		<p class="button_title">tink</p>
+	</div>
+
+
+
+	<audio data-key="65" src="sounds/clap.wav"></audio>
+	<audio data-key="83" src="sounds/hihat.wav"></audio>
+	<audio data-key="68" src="sounds/kick.wav"></audio>
+	<audio data-key="70" src="sounds/openhat.wav"></audio>
+	<audio data-key="71" src="sounds/boom.wav"></audio>
+	<audio data-key="72" src="sounds/ride.wav"></audio>
+	<audio data-key="74" src="sounds/snare.wav"></audio>
+	<audio data-key="75" src="sounds/tom.wav"></audio>
+	<audio data-key="76" src="sounds/tink.wav"></audio>
+
+
+	<script>
+		var buttons = document.getElementsByClassName("button");
+
+		var playSoundOnClick = function() {
+			const keyAttribute = this.getAttribute("data-key");
+			this.classList.add('button_clicked');
+			const audio = document.querySelector(`audio[data-key="${keyAttribute}"]`);
+			if (!audio) return;
+			audio.currentTime = 0;
+			audio.play();
+		};
+
+		var playSoundOnKeyPress = function(e) {
+			const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+			const buttonForKey = document.querySelector(`div[data-key="${e.keyCode}"]`);
+			buttonForKey.classList.add('button_clicked');
+			if (!audio) return;
+			audio.currentTime = 0;
+			audio.play();
+
+		};
+		var removeTarnsition = function() {
+
+			this.classList.remove('button_clicked');
+
+
+		};
+
+		for (var i = 0; i < buttons.length; i++) {
+			buttons[i].addEventListener('click', playSoundOnClick, false);
+			buttons[i].addEventListener('transitionend', removeTarnsition, false);
+		}
+		document.addEventListener('keydown', playSoundOnKeyPress);
+
+	</script>
+
+</body>
+
+</html>
